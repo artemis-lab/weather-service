@@ -1,24 +1,27 @@
+export type Temperature = "cold" | "hot" | "moderate";
+
 export interface WeatherForecastResponse {
-  today: string;
-  temperature: "hot" | "cold" | "moderate";
   location: {
     latitude: number;
     longitude: number;
   };
-}
-
-export interface WeatherGovPoint {
-  properties: {
-    forecast: string;
-  };
+  name: string;
+  shortForecast: string;
+  temperature: Temperature;
 }
 
 export interface WeatherGovForecast {
   properties: {
     periods: Array<{
       name: string;
-      temperature: number;
       shortForecast: string;
+      temperature: number;
     }>;
+  };
+}
+
+export interface WeatherGovPoint {
+  properties: {
+    forecast: string;
   };
 }
