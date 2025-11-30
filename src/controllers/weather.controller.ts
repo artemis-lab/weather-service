@@ -10,6 +10,9 @@ import {
 } from "../types/weather.types";
 import { coordinatesSchema } from "../validators/weather.validator";
 
+/**
+ * Handles HTTP requests for weather forecast.
+ */
 export class WeatherController {
   private weatherService: IWeatherService;
 
@@ -17,6 +20,12 @@ export class WeatherController {
     this.weatherService = weatherService || new WeatherService();
   }
 
+  /**
+   * Retrieves weather forecast for the given coordinates.
+   * @param request - Express request with coordinates in params
+   * @param response - Express response
+   * @param next - Express next function for error handling
+   */
   getForecast = async (
     request: Request<CoordinatesParams>,
     response: Response<SuccessResponse<WeatherForecastResponse>>,

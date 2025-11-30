@@ -3,6 +3,9 @@ import { Router } from "express";
 import { FORECAST_PATH } from "../constants";
 import { WeatherController } from "../controllers/weather.controller";
 
+/**
+ * Configures routes for weather-related endpoints.
+ */
 export class WeatherRoutes {
   router = Router();
   private controller: WeatherController;

@@ -28,7 +28,7 @@
   ],
   "author": "",
   "license": "ISC",
-  "description": "Weather forecast service using Weather.gov API",
+  "description": "Weather service using Weather.gov API",
   "dependencies": {
     "cors": "2.8.5",
     "express": "5.1.0",

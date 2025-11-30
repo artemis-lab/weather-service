@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+/**
+ * Zod schema for validating coordinate parameters.
+ * Validates latitude (-90 to 90) and longitude (-180 to 180).
+ * Converts string inputs to numbers after validation.
+ */
 export const coordinatesSchema = z.object({
   latitude: z
     .string()

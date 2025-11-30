@@ -19,6 +19,9 @@ import type {
 import { generateTraceId } from "../utils/helpers";
 import type { IWeatherService } from "./weather-service.interface";
 
+/**
+ * Implements weather forecast retrieval with retry logic and error handling.
+ */
 export class WeatherService implements IWeatherService {
   private logger: ILogger;
 
@@ -145,7 +148,7 @@ export class WeatherService implements IWeatherService {
 
     if (response.status === 404) {
       throw new NotFoundError(
-        "Location not found. Coordinates may be in an unsupported area.",
+        "Location not found. Coordinates may be outside the US or in an unsupported area",
       );
     }
 
@@ -176,6 +179,9 @@ export class WeatherService implements IWeatherService {
     };
   }
 
+  /**
+   * Categorizes temperature into cold (<=50F), moderate, or hot (>=80F).
+   */
   private categorizeTemperature(temperature: number): Temperature {
     if (temperature <= TEMPERATURE_COLD_THRESHOLD) {
       return "cold";

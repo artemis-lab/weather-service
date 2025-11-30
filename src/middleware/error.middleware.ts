@@ -6,6 +6,9 @@ import type { ILogger } from "../logger";
 import { Logger } from "../logger";
 import type { ErrorResponse } from "../types/weather.types";
 
+/**
+ * Centralized error handling middleware for the application.
+ */
 export class ErrorHandler {
   private logger: ILogger;
 
@@ -13,6 +16,13 @@ export class ErrorHandler {
     this.logger = logger || new Logger();
   }
 
+  /**
+   * Handles errors and sends appropriate HTTP responses.
+   * @param error - The error to handle
+   * @param request - Express request
+   * @param response - Express response
+   * @param _next - Express next function (unused)
+   */
   handle = (
     error: Error,
     request: Request,
