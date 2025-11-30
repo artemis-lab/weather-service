@@ -1,3 +1,7 @@
+export interface CoordinatesParams {
+  coordinates: string;
+}
+
 export type Temperature = "cold" | "hot" | "moderate";
 
 export interface WeatherForecastResponse {
