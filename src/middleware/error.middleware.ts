@@ -30,7 +30,6 @@ export class ErrorHandler {
         success: false,
         error: "Validation Error",
         message: error.issues[0]?.message || "Invalid input",
-        statusCode: 400,
         details: error.issues.map((issue) => ({
           field: issue.path.join("."),
           message: issue.message,
@@ -44,7 +43,6 @@ export class ErrorHandler {
         success: false,
         error: error.name,
         message: error.message,
-        statusCode: error.statusCode,
       });
       return;
     }
@@ -53,7 +51,6 @@ export class ErrorHandler {
       success: false,
       error: "Internal Server Error",
       message: "An unexpected error occurred",
-      statusCode: 500,
     });
   };
 }
