@@ -1,5 +1,10 @@
 export const DEFAULT_PORT = 3000;
 
+// Paths
+export const API_V1_WEATHER_PATH = "/api/v1/weather";
+export const FORECAST_PATH = "/forecast/:coordinates";
+export const HEALTH_PATH = "/health";
+
 // Temperature thresholds
 export const TEMPERATURE_COLD_THRESHOLD = 50;
 export const TEMPERATURE_HOT_THRESHOLD = 80;

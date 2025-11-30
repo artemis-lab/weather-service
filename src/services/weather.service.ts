@@ -1,4 +1,4 @@
-import pRetry, { AbortError } from "p-retry";
+import pRetry from "p-retry";
 
 import {
   TEMPERATURE_COLD_THRESHOLD,
@@ -7,7 +7,7 @@ import {
   WEATHER_API_RETRY_ATTEMPTS,
   WEATHER_API_USER_AGENT,
 } from "../constants";
-import { ServiceUnavailableError } from "../errors/errors";
+import { NotFoundError, ServiceUnavailableError } from "../errors/errors";
 import type { ILogger } from "../logger";
 import { Logger } from "../logger";
 import type {
@@ -77,6 +77,12 @@ export class WeatherService implements IWeatherService {
 
     return pRetry(run, {
       retries: WEATHER_API_RETRY_ATTEMPTS,
+      shouldRetry: ({ error }) => {
+        if (error instanceof NotFoundError) {
+          return false;
+        }
+        return true;
+      },
       onFailedAttempt: ({
         attemptNumber,
         error,
@@ -109,6 +115,12 @@ export class WeatherService implements IWeatherService {
 
     return pRetry(run, {
       retries: WEATHER_API_RETRY_ATTEMPTS,
+      shouldRetry: ({ error }) => {
+        if (error instanceof NotFoundError) {
+          return false;
+        }
+        return true;
+      },
       onFailedAttempt: ({
         attemptNumber,
         error,
@@ -132,7 +144,7 @@ export class WeatherService implements IWeatherService {
     });
 
     if (response.status === 404) {
-      throw new AbortError(
+      throw new NotFoundError(
         "Location not found. Coordinates may be in an unsupported area.",
       );
     }
@@ -157,10 +169,10 @@ export class WeatherService implements IWeatherService {
     }
 
     return {
-      location: { latitude, longitude },
       name: todayPeriod.name,
       temperature: this.categorizeTemperature(todayPeriod.temperature),
       shortForecast: todayPeriod.shortForecast,
+      location: { latitude, longitude },
     };
   }
 

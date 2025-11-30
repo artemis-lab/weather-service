@@ -5,6 +5,7 @@ import type { IWeatherService } from "../services";
 import { WeatherService } from "../services";
 import {
   CoordinatesParams,
+  SuccessResponse,
   WeatherForecastResponse,
 } from "../types/weather.types";
 import { coordinatesSchema } from "../validators/weather.validator";
@@ -17,8 +18,8 @@ export class WeatherController {
   }
 
   getForecast = async (
-    request: Request<CoordinatesParams, WeatherForecastResponse>,
-    response: Response<WeatherForecastResponse>,
+    request: Request<CoordinatesParams>,
+    response: Response<SuccessResponse<WeatherForecastResponse>>,
     next: NextFunction,
   ): Promise<void> => {
     try {
@@ -38,7 +39,7 @@ export class WeatherController {
         validated.longitude,
       );
 
-      response.status(200).json(forecast);
+      response.status(200).json({ success: true, data: forecast });
     } catch (error) {
       next(error);
     }
