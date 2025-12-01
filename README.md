@@ -32,6 +32,25 @@ npm start
 
 The server runs on `http://localhost:3000` by default.
 
+### Tests
+
+```bash
+# All
+npm run test
+
+# Unit
+npm run test:unit
+
+# Integration
+npm run test:integration
+
+# Coverage
+npm run test:coverage
+
+# UI
+npm run test:ui
+```
+
 ## API Usage
 
 ### Get Weather Forecast

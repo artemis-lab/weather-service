@@ -175,7 +175,10 @@ export class WeatherService implements IWeatherService {
       name: todayPeriod.name,
       temperature: this.categorizeTemperature(todayPeriod.temperature),
       shortForecast: todayPeriod.shortForecast,
-      location: { latitude, longitude },
+      location: {
+        latitude,
+        longitude,
+      },
     };
   }
 
