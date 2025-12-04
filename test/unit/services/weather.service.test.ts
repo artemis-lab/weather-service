@@ -82,7 +82,7 @@ describe("WeatherService", () => {
       await expect(service.getForecast(39, -97)).rejects.toThrow(
         ServiceUnavailableError,
       );
-    }, 10000);
+    });
 
     it("should categorize temperature as cold", async () => {
       vi.mocked(global.fetch)
