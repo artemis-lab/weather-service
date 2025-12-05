@@ -146,43 +146,85 @@ describe("Logger", () => {
   });
 
   describe("debug", () => {
-    it("should log debug message without metadata", () => {
-      logger.debug("Test debug message");
+    describe("non-production environment", () => {
+      it("should log debug message without metadata", () => {
+        logger.debug("Test debug message");
 
-      expect(consoleDebugSpy).toHaveBeenCalledTimes(1);
-      expect(consoleDebugSpy).toHaveBeenCalledWith(
-        expect.stringContaining("[DEBUG]"),
-        "",
-      );
-      expect(consoleDebugSpy).toHaveBeenCalledWith(
-        expect.stringContaining("Test debug message"),
-        "",
-      );
+        expect(consoleDebugSpy).toHaveBeenCalledTimes(1);
+        expect(consoleDebugSpy).toHaveBeenCalledWith(
+          expect.stringContaining("[DEBUG]"),
+          "",
+        );
+        expect(consoleDebugSpy).toHaveBeenCalledWith(
+          expect.stringContaining("Test debug message"),
+          "",
+        );
+      });
+
+      it("should log debug message with metadata", () => {
+        const metadata = { requestId: "abc-123", duration: 45 };
+
+        logger.debug("Request processed", metadata);
+
+        expect(consoleDebugSpy).toHaveBeenCalledTimes(1);
+        expect(consoleDebugSpy).toHaveBeenCalledWith(
+          expect.stringContaining("[DEBUG]"),
+          metadata,
+        );
+        expect(consoleDebugSpy).toHaveBeenCalledWith(
+          expect.stringContaining("Request processed"),
+          metadata,
+        );
+      });
+
+      it("should include ISO timestamp in debug log", () => {
+        logger.debug("Test debug");
+
+        const logCall = consoleDebugSpy.mock.calls[0][0];
+        expect(logCall).toMatch(
+          /\[DEBUG\] \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z - Test debug/,
+        );
+      });
     });
 
-    it("should log debug message with metadata", () => {
-      const metadata = { requestId: "abc-123", duration: 45 };
+    describe("production environment", () => {
+      beforeEach(() => {
+        process.env.NODE_ENV = "production";
+      });
 
-      logger.debug("Request processed", metadata);
+      afterEach(() => {
+        process.env.NODE_ENV = "test";
+      });
 
-      expect(consoleDebugSpy).toHaveBeenCalledTimes(1);
-      expect(consoleDebugSpy).toHaveBeenCalledWith(
-        expect.stringContaining("[DEBUG]"),
-        metadata,
-      );
-      expect(consoleDebugSpy).toHaveBeenCalledWith(
-        expect.stringContaining("Request processed"),
-        metadata,
-      );
-    });
+      it("should not log debug message without metadata", () => {
+        logger.debug("Test debug message");
 
-    it("should include ISO timestamp in debug log", () => {
-      logger.debug("Test debug");
+        expect(consoleDebugSpy).toHaveBeenCalledTimes(0);
+        expect(consoleDebugSpy).not.toHaveBeenCalledWith(
+          expect.stringContaining("[DEBUG]"),
+          "",
+        );
+        expect(consoleDebugSpy).not.toHaveBeenCalledWith(
+          expect.stringContaining("Test debug message"),
+          "",
+        );
+      });
 
-      const logCall = consoleDebugSpy.mock.calls[0][0];
-      expect(logCall).toMatch(
-        /\[DEBUG\] \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z - Test debug/,
-      );
+      it("should not log debug message with metadata", () => {
+        const metadata = { requestId: "abc-123", duration: 45 };
+
+        logger.debug("Request processed", metadata);
+
+        expect(consoleDebugSpy).toHaveBeenCalledTimes(0);
+        expect(consoleDebugSpy).not.toHaveBeenCalledWith(
+          expect.stringContaining("[DEBUG]"),
+          metadata,
+        );
+        expect(consoleDebugSpy).not.toHaveBeenCalledWith(
+          expect.stringContaining("Request processed"),
+          metadata,
+        );
+      });
     });
   });
 });
