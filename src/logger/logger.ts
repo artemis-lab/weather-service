@@ -1,8 +1,11 @@
 import type { ILogger } from "./logger.interface";
 
 export class Logger implements ILogger {
-  info(message: string, meta?: object): void {
-    console.log(`[INFO] ${new Date().toISOString()} - ${message}`, meta || "");
+  info(message: string, metadata?: object): void {
+    console.log(
+      `[INFO] ${new Date().toISOString()} - ${message}`,
+      metadata || "",
+    );
   }
 
   error(message: string, error?: unknown): void {
@@ -12,14 +15,22 @@ export class Logger implements ILogger {
     );
   }
 
-  warn(message: string, meta?: object): void {
-    console.warn(`[WARN] ${new Date().toISOString()} - ${message}`, meta || "");
+  warn(message: string, metadata?: object): void {
+    console.warn(
+      `[WARN] ${new Date().toISOString()} - ${message}`,
+      metadata || "",
+    );
   }
 
-  debug(message: string, meta?: object): void {
-    console.debug(
-      `[DEBUG] ${new Date().toISOString()} - ${message}`,
-      meta || "",
-    );
+  debug(message: string, metadata?: object): void {
+    if (
+      process.env.NODE_ENV === "development" ||
+      process.env.NODE_ENV === "test"
+    ) {
+      console.debug(
+        `[DEBUG] ${new Date().toISOString()} - ${message}`,
+        metadata || "",
+      );
+    }
   }
 }
