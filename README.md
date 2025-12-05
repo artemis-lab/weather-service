@@ -1,3 +1,5 @@
+[![Node.js CI](https://github.com/artemis-lab/weather-service/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/artemis-lab/weather-service/actions/workflows/node.js.yml)
+
 # Weather Service
 
 A Node.js/Express API service that retrieves weather forecast from the Weather.gov API for US locations.
