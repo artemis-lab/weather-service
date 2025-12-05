@@ -2,7 +2,7 @@
 
 # Weather Service
 
-A Node.js/Express API service that retrieves weather forecast from the Weather.gov API for US locations.
+A Node.js/Express API service that retrieves weather forecast from the [Weather.gov API](https://www.weather.gov/documentation/services-web-api) for US locations.
 
 ## Purpose
 
