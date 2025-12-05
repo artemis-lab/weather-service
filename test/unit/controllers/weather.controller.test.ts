@@ -62,18 +62,6 @@ describe("WeatherController", () => {
       expect(mockService.getForecast).toHaveBeenCalledWith(39.7456, -97.0892);
     });
 
-    it("should call next with ValidationError for missing comma", async () => {
-      mockRequest.params = { coordinates: "invalid" };
-
-      await controller.getForecast(
-        mockRequest as any,
-        mockResponse as any,
-        mockNext,
-      );
-
-      expect(mockNext).toHaveBeenCalledWith(expect.any(ValidationError));
-    });
-
     it("should call next with ValidationError for empty coordinates", async () => {
       mockRequest.params = { coordinates: "" };
 
@@ -86,7 +74,31 @@ describe("WeatherController", () => {
       expect(mockNext).toHaveBeenCalledWith(expect.any(ValidationError));
     });
 
-    it("should call next with ZodError for out-of-range latitude", async () => {
+    it("should call next with ValidationError for missing comma", async () => {
+      mockRequest.params = { coordinates: "invalid" };
+
+      await controller.getForecast(
+        mockRequest as any,
+        mockResponse as any,
+        mockNext,
+      );
+
+      expect(mockNext).toHaveBeenCalledWith(expect.any(ValidationError));
+    });
+
+    it("should call next with ZodError for too small out-of-range latitude", async () => {
+      mockRequest.params = { coordinates: "-999,-97.0892" };
+
+      await controller.getForecast(
+        mockRequest as any,
+        mockResponse as any,
+        mockNext,
+      );
+
+      expect(mockNext).toHaveBeenCalled();
+    });
+
+    it("should call next with ZodError for too big out-of-range latitude", async () => {
       mockRequest.params = { coordinates: "999,-97.0892" };
 
       await controller.getForecast(
@@ -98,7 +110,19 @@ describe("WeatherController", () => {
       expect(mockNext).toHaveBeenCalled();
     });
 
-    it("should call next with ZodError for out-of-range longitude", async () => {
+    it("should call next with ZodError for too small out-of-range longitude", async () => {
+      mockRequest.params = { coordinates: "39.7456,-999" };
+
+      await controller.getForecast(
+        mockRequest as any,
+        mockResponse as any,
+        mockNext,
+      );
+
+      expect(mockNext).toHaveBeenCalled();
+    });
+
+    it("should call next with ZodError for too big out-of-range longitude", async () => {
       mockRequest.params = { coordinates: "39.7456,999" };
 
       await controller.getForecast(
