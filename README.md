@@ -1,5 +1,6 @@
 [![Node.js CI](https://github.com/artemis-lab/weather-service/actions/workflows/node.js.yml/badge.svg)](https://github.com/artemis-lab/weather-service/actions/workflows/node.js.yml)
 [![codecov](https://codecov.io/gh/artemis-lab/weather-service/branch/master/graph/badge.svg)](https://codecov.io/gh/artemis-lab/weather-service)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
 # Weather Service
 
@@ -35,23 +36,32 @@ npm start
 
 The server runs on `http://localhost:3000` by default.
 
-### Tests
+### Development
 
 ```bash
-# All
+# Run tests
 npm run test
 
-# Unit
+# Run unit tests
 npm run test:unit
 
-# Integration
+# Run integration tests
 npm run test:integration
 
-# Coverage
+# Run tests with coverage
 npm run test:coverage
 
-# UI
+# Run tests with coverage and open coverage report in a browser
+npm run test:coverage:open
+
+# Run tests in a browser
 npm run test:ui
+
+# Lint code
+npm run lint
+
+# Format code
+npm run format
 ```
 
 ## API Usage
@@ -141,6 +151,10 @@ curl http://localhost:3000/health
 
 ## Temperature Classification
 
-- **Cold**: <= 50F
-- **Moderate**: 51-79F
-- **Hot**: >= 80F
+- **cold**: <= 50F
+- **moderate**: 51-79F
+- **hot**: >= 80F
+
+## License
+
+ISC
