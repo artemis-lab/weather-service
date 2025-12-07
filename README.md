@@ -1,6 +1,6 @@
 [![Node.js CI](https://github.com/artemis-lab/weather-service/actions/workflows/node.js.yml/badge.svg)](https://github.com/artemis-lab/weather-service/actions/workflows/node.js.yml)
 [![codecov](https://codecov.io/gh/artemis-lab/weather-service/branch/master/graph/badge.svg)](https://codecov.io/gh/artemis-lab/weather-service)
-[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Weather Service
 
@@ -157,4 +157,4 @@ curl http://localhost:3000/health
 
 ## License
 
-ISC
+MIT

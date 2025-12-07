@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "author": "artemis-lab",
+  "license": "MIT",
+  "description": "Weather service using Weather.gov API",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -33,9 +36,6 @@
     "express",
     "typescript"
   ],
-  "author": "",
-  "license": "ISC",
-  "description": "Weather service using Weather.gov API",
   "dependencies": {
     "cors": "2.8.5",
     "express": "5.1.0",
