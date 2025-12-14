@@ -32,6 +32,29 @@ describe("ErrorHandler", () => {
     mockNext = vi.fn();
   });
 
+  describe("constructor", () => {
+    it("should use default logger when none is provided", () => {
+      const handlerWithDefaultLogger = new ErrorHandler();
+      const error = new Error("Test error");
+
+      expect(() => {
+        handlerWithDefaultLogger.handle(
+          error,
+          mockRequest as Request,
+          mockResponse as Response,
+          mockNext,
+        );
+      }).not.toThrow();
+
+      expect(mockResponse.status).toHaveBeenCalledWith(500);
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        success: false,
+        error: "Internal Server Error",
+        message: "An unexpected error occurred",
+      });
+    });
+  });
+
   describe("handle", () => {
     it("should handle ZodError with 400 status", () => {
       const zodError = new ZodError([
