@@ -1,4 +1,6 @@
-export const DEFAULT_PORT = 3000;
+// Server configuration
+export const CORS_ORIGIN = process.env.CORS_ORIGIN || "*";
+export const PORT = Number(process.env.PORT) || 3000;
 
 // Paths
 export const API_V1_WEATHER_PATH = "/api/v1/weather";

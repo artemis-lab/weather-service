@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 
 import { ValidationError } from "../errors/errors";
+import type { ILogger } from "../logger";
 import type { IWeatherService } from "../services";
 import { WeatherService } from "../services";
 import {
@@ -16,8 +17,8 @@ import { coordinatesSchema } from "../validators/weather.validator";
 export class WeatherController {
   private weatherService: IWeatherService;
 
-  constructor(weatherService?: IWeatherService) {
-    this.weatherService = weatherService || new WeatherService();
+  constructor(weatherService?: IWeatherService, logger?: ILogger) {
+    this.weatherService = weatherService || new WeatherService(logger);
   }
 
   /**

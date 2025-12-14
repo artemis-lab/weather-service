@@ -1,33 +1,10 @@
-import express, { type Express } from "express";
 import request from "supertest";
-import {
-  afterEach,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { API_V1_WEATHER_PATH } from "../../../src/constants";
-import { ErrorHandler } from "../../../src/middleware/error.middleware";
-import { WeatherRoutes } from "../../../src/routes/weather.routes";
+import { app } from "../../../src/index";
 
 describe("WeatherRoutes", () => {
-  let app: Express;
-
-  beforeAll(() => {
-    app = express();
-    app.use(express.json());
-
-    const routes = new WeatherRoutes();
-    app.use(API_V1_WEATHER_PATH, routes.router);
-
-    const errorHandler = new ErrorHandler();
-    app.use(errorHandler.handle);
-  });
-
   beforeEach(() => {
     global.fetch = vi.fn();
   });
