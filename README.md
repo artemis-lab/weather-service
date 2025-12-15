@@ -89,7 +89,7 @@ npm run format
 ### Get Weather Forecast
 
 ```bash
-GET /api/v1/weather/forecast/:coordinates
+GET /v1/forecast/:coordinates
 ```
 
 The `coordinates` should be in the form `{latitude},{longitude}`.
@@ -98,16 +98,16 @@ The `coordinates` should be in the form `{latitude},{longitude}`.
 
 ```bash
 # Valid US location (Kansas)
-curl http://localhost:3000/api/v1/weather/forecast/39.7456,-97.0892
+curl http://localhost:3000/v1/forecast/39.7456,-97.0892
 
 # Invalid coordinates (out of range)
-curl http://localhost:3000/api/v1/weather/forecast/999,999
+curl http://localhost:3000/v1/forecast/999,999
 
 # Invalid format
-curl http://localhost:3000/api/v1/weather/forecast/invalid
+curl http://localhost:3000/v1/forecast/invalid
 
 # Location not in US (will return 404)
-curl http://localhost:3000/api/v1/weather/forecast/0,0
+curl http://localhost:3000/v1/forecast/0,0
 ```
 
 ### Success Response (200)

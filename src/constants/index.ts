@@ -3,7 +3,7 @@ export const CORS_ORIGIN = process.env.CORS_ORIGIN || "*";
 export const PORT = Number(process.env.PORT) || 3000;
 
 // Paths
-export const API_V1_WEATHER_PATH = "/api/v1/weather";
+export const API_V1_PATH = "/v1";
 export const FORECAST_PATH = "/forecast/:coordinates";
 export const HEALTH_PATH = "/health";
 

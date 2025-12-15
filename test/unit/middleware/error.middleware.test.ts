@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ZodError } from "zod";
 
-import { API_V1_WEATHER_PATH } from "../../../src/constants";
+import { API_V1_PATH } from "../../../src/constants";
 import { NotFoundError, ValidationError } from "../../../src/errors/errors";
 import type { ILogger } from "../../../src/logger";
 import { ErrorHandler } from "../../../src/middleware/error.middleware";
@@ -20,7 +20,7 @@ describe("ErrorHandler", () => {
     errorHandler = new ErrorHandler(mockLogger);
 
     mockRequest = {
-      path: `${API_V1_WEATHER_PATH}/forecast/39.7456,-97.0892`,
+      path: `${API_V1_PATH}/forecast/39.7456,-97.0892`,
       method: "GET",
     };
 
@@ -205,7 +205,7 @@ describe("ErrorHandler", () => {
       );
 
       expect(mockLogger.error).toHaveBeenCalledWith("Error occurred", {
-        path: "/api/v1/weather/forecast/39.7456,-97.0892",
+        path: "/v1/forecast/39.7456,-97.0892",
         method: "GET",
         error: "Test error",
       });

@@ -1,7 +1,7 @@
 import request from "supertest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { API_V1_WEATHER_PATH } from "../../../src/constants";
+import { API_V1_PATH } from "../../../src/constants";
 import { app } from "../../../src/index";
 
 describe("WeatherRoutes", () => {
@@ -42,7 +42,7 @@ describe("WeatherRoutes", () => {
         } as Response);
 
       const response = await request(app).get(
-        `${API_V1_WEATHER_PATH}/forecast/39.7456,-97.0892`,
+        `${API_V1_PATH}/forecast/39.7456,-97.0892`,
       );
 
       expect(response.status).toBe(200);
@@ -66,9 +66,7 @@ describe("WeatherRoutes", () => {
         status: 404,
       } as Response);
 
-      const response = await request(app).get(
-        `${API_V1_WEATHER_PATH}/forecast/0,0`,
-      );
+      const response = await request(app).get(`${API_V1_PATH}/forecast/0,0`);
 
       expect(response.status).toBe(404);
       expect(response.body).toMatchObject({
@@ -84,7 +82,7 @@ describe("WeatherRoutes", () => {
       } as Response);
 
       const response = await request(app).get(
-        `${API_V1_WEATHER_PATH}/forecast/39.7456,-97.0892`,
+        `${API_V1_PATH}/forecast/39.7456,-97.0892`,
       );
 
       expect(response.status).toBe(503);
@@ -96,7 +94,7 @@ describe("WeatherRoutes", () => {
 
     it("should return 400 for invalid coordinates format", async () => {
       const response = await request(app).get(
-        `${API_V1_WEATHER_PATH}/forecast/invalid`,
+        `${API_V1_PATH}/forecast/invalid`,
       );
 
       expect(response.status).toBe(400);
@@ -108,7 +106,7 @@ describe("WeatherRoutes", () => {
 
     it("should return 400 for out-of-range latitude", async () => {
       const response = await request(app).get(
-        `${API_V1_WEATHER_PATH}/forecast/999,-97.0892`,
+        `${API_V1_PATH}/forecast/999,-97.0892`,
       );
 
       expect(response.status).toBe(400);
@@ -119,7 +117,7 @@ describe("WeatherRoutes", () => {
 
     it("should return 400 for out-of-range longitude", async () => {
       const response = await request(app).get(
-        `${API_V1_WEATHER_PATH}/forecast/39.7456,999`,
+        `${API_V1_PATH}/forecast/39.7456,999`,
       );
 
       expect(response.status).toBe(400);
@@ -129,9 +127,7 @@ describe("WeatherRoutes", () => {
     });
 
     it("should return 400 for empty coordinates", async () => {
-      const response = await request(app).get(
-        `${API_V1_WEATHER_PATH}/forecast/,`,
-      );
+      const response = await request(app).get(`${API_V1_PATH}/forecast/,`);
 
       expect(response.status).toBe(400);
     });

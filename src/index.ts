@@ -2,12 +2,7 @@ import cors from "cors";
 import express, { type Express, json, Response } from "express";
 import type { Server } from "http";
 
-import {
-  API_V1_WEATHER_PATH,
-  CORS_ORIGIN,
-  HEALTH_PATH,
-  PORT,
-} from "./constants";
+import { API_V1_PATH, CORS_ORIGIN, HEALTH_PATH, PORT } from "./constants";
 import { Logger } from "./logger";
 import { ErrorHandler } from "./middleware/error.middleware";
 import { WeatherRoutes } from "./routes/weather.routes";
@@ -35,7 +30,7 @@ app.get(HEALTH_PATH, (_req, res: Response<HealthCheckResponse>) => {
 
 // API routes - share logger instance
 const weatherRoutes = new WeatherRoutes(undefined, logger);
-app.use(API_V1_WEATHER_PATH, weatherRoutes.router);
+app.use(API_V1_PATH, weatherRoutes.router);
 
 // Error handling - share logger instance
 const errorHandler = new ErrorHandler(logger);
