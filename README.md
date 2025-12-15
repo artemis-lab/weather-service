@@ -244,16 +244,6 @@ curl http://localhost:3000/health
 - **Testing**: Vitest with 100% test coverage
 - **Code Quality**: ESLint + Prettier with automated formatting
 
-## Deployment
-
-This service is ready for deployment to Fly.io. See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions including:
-
-- Initial Fly.io setup and deployment
-- Custom domain configuration (`api.weather.yourdomain.com`)
-- CI/CD with GitHub Actions
-- Scaling and monitoring
-- Cost optimization tips
-
 ## License
 
 MIT
