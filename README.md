@@ -56,6 +56,56 @@ npm start
 
 The server runs on `http://localhost:3000` by default (configurable via `PORT` environment variable).
 
+### Run with Docker
+
+Test the production Docker image locally using Docker Compose (recommended):
+
+```bash
+# Start the service (builds automatically)
+docker-compose up
+
+# Start in detached mode (background)
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop and remove containers
+docker-compose down
+
+# Rebuild and restart
+docker-compose up --build
+```
+
+Or use Docker CLI directly:
+
+```bash
+# Build and run
+docker build -t weather-service .
+docker run -p 3000:3000 --name weather-service weather-service
+
+# Run in detached mode (background)
+docker run -d -p 3000:3000 --name weather-service weather-service
+
+# Run with custom environment variables
+docker run -p 3000:3000 --name weather-service -e CORS_ORIGIN=https://myapp.com weather-service
+
+# View logs
+docker logs weather-service
+docker logs -f weather-service  # Follow logs (stream)
+
+# Stop and remove container
+docker stop weather-service
+docker rm weather-service
+```
+
+Test the service:
+
+```bash
+curl http://localhost:3000/health
+curl http://localhost:3000/v1/forecast/39.7456,-97.0892
+```
+
 ### Development
 
 ```bash
@@ -193,6 +243,16 @@ curl http://localhost:3000/health
 - **Dependency Injection**: Constructor-based DI for testability
 - **Testing**: Vitest with 100% test coverage
 - **Code Quality**: ESLint + Prettier with automated formatting
+
+## Deployment
+
+This service is ready for deployment to Fly.io. See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions including:
+
+- Initial Fly.io setup and deployment
+- Custom domain configuration (`api.weather.yourdomain.com`)
+- CI/CD with GitHub Actions
+- Scaling and monitoring
+- Cost optimization tips
 
 ## License
 
