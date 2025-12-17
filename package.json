@@ -6,7 +6,11 @@
   "types": "dist/index.d.ts",
   "author": "artemis-lab",
   "license": "MIT",
-  "description": "Weather service using Weather.gov API",
+  "description": "A Node.js/Express API service that retrieves weather forecast from the Weather.gov API for US locations",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artemis-lab/weather-service.git"
+  },
   "engines": {
     "node": ">=20.0.0"
   },
