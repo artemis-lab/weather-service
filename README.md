@@ -23,6 +23,8 @@ Returns today's weather forecast including conditions and temperature classifica
 npm install
 ```
 
+**Note**: `.npmrc` ensures exact versions are installed for deterministic builds.
+
 ### Configuration
 
 The service can be configured using environment variables:
