@@ -86,7 +86,7 @@ jobs:
             --cpu 1 \
             --min-instances 0 \
             --max-instances 10 \
-            --format=json 2>/dev/null > deploy-output.json
+            --format=json > deploy-output.json
 
           REVISION=$(jq -r '.status.latestCreatedRevisionName' deploy-output.json)
           echo "revision=$REVISION" >> $GITHUB_OUTPUT
