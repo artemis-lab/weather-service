@@ -10,6 +10,25 @@ A Node.js/Express API service that retrieves weather forecast from the [Weather.
 
 Returns today's weather forecast including conditions and temperature classification (cold/moderate/hot) for given coordinates.
 
+## Live API
+
+The service is deployed and available at:
+
+**Base URL**: `https://api.weather.artemislab.net`
+
+Try it out:
+
+```bash
+# Health check
+curl https://api.weather.artemislab.net/health
+
+# Get weather forecast for Kansas
+curl https://api.weather.artemislab.net/v1/forecast/39.7456,-97.0892
+
+# Get weather forecast for New York City
+curl https://api.weather.artemislab.net/v1/forecast/40.7128,-74.0060
+```
+
 ## Getting Started
 
 ### Prerequisites
