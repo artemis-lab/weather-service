@@ -199,12 +199,12 @@ describe("Logger", () => {
       it("should not log debug message without metadata", () => {
         logger.debug("Test debug message");
 
-        expect(consoleDebugSpy).toHaveBeenCalledTimes(1);
-        expect(consoleDebugSpy).toHaveBeenCalledWith(
+        expect(consoleDebugSpy).toHaveBeenCalledTimes(0);
+        expect(consoleDebugSpy).not.toHaveBeenCalledWith(
           expect.stringContaining("[DEBUG]"),
           "",
         );
-        expect(consoleDebugSpy).toHaveBeenCalledWith(
+        expect(consoleDebugSpy).not.toHaveBeenCalledWith(
           expect.stringContaining("Test debug message"),
           "",
         );
@@ -215,12 +215,12 @@ describe("Logger", () => {
 
         logger.debug("Request processed", metadata);
 
-        expect(consoleDebugSpy).toHaveBeenCalledTimes(1);
-        expect(consoleDebugSpy).toHaveBeenCalledWith(
+        expect(consoleDebugSpy).toHaveBeenCalledTimes(0);
+        expect(consoleDebugSpy).not.toHaveBeenCalledWith(
           expect.stringContaining("[DEBUG]"),
           metadata,
         );
-        expect(consoleDebugSpy).toHaveBeenCalledWith(
+        expect(consoleDebugSpy).not.toHaveBeenCalledWith(
           expect.stringContaining("Request processed"),
           metadata,
         );
