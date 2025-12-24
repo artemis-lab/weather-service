@@ -370,6 +370,10 @@ Automatic deployment on push to `master` branch is configured in `.github/workfl
      --member serviceAccount:github-actions@YOUR_PROJECT_ID.iam.gserviceaccount.com \
      --role roles/iam.serviceAccountUser
 
+   gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+     --member serviceAccount:github-actions@YOUR_PROJECT_ID.iam.gserviceaccount.com \
+     --role roles/artifactregistry.writer
+
    # Create and download key
    gcloud iam service-accounts keys create key.json \
      --iam-account github-actions@YOUR_PROJECT_ID.iam.gserviceaccount.com
