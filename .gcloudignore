@@ -1,0 +1,33 @@
+# This file specifies files that are _not_ uploaded to Google Cloud using gcloud.
+# It follows the same syntax as .gitignore
+.gcloudignore
+.git
+.gitignore
+
+# Node.js dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Test files
+coverage/
+test/
+*.test.ts
+*.test.js
+
+# Development files
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# Documentation
+*.md
+!README.md
+
+# Misc
+.DS_Store
+*.log

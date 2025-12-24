@@ -4,7 +4,7 @@
 
 # Weather Service
 
-A Node.js/Express API service that retrieves weather forecast from the [Weather.gov API](https://www.weather.gov/documentation/services-web-api) for US locations.
+A Node.js/Express API service that retrieves weather forecast from the [Weather.gov API](https://www.weather.gov/documentation/services-web-api) for US locations. Built with Node.js, TypeScript, Express, and Zod.
 
 ## Purpose
 
@@ -245,6 +245,17 @@ curl http://localhost:3000/health
 - **Dependency Injection**: Constructor-based DI for testability
 - **Testing**: Vitest with 100% test coverage
 - **Code Quality**: ESLint + Prettier with automated formatting
+
+## Deployment
+
+This service is ready for deployment to Google Cloud Run. See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions including:
+
+- Initial Google Cloud setup and deployment
+- Custom domain configuration (`api.weather.yourdomain.com`)
+- Automatic SSL certificates
+- CI/CD with GitHub Actions
+- Scaling and monitoring
+- Cost optimization tips
 
 ## License
 
