@@ -1,5 +1,7 @@
 import { vi } from "vitest";
 
+import { RATE_LIMIT_WINDOW_MS } from "../src/constants";
+
 /**
  * Mock p-retry to remove delays in tests for faster execution.
  * This still tests retry logic (count, shouldRetry, errors) but skips the waiting.
@@ -17,3 +19,14 @@ vi.mock("p-retry", async () => {
     },
   };
 });
+
+/**
+ * Wait for the rate limit window to expire.
+ * This should be called in afterEach to ensure tests don't interfere with each other.
+ */
+export const waitForRateLimitReset = async (): Promise<void> => {
+  // Wait for window + 50% buffer to ensure it's fully expired
+  await new Promise((resolve) =>
+    setTimeout(resolve, RATE_LIMIT_WINDOW_MS * 1.5),
+  );
+};

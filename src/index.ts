@@ -2,9 +2,16 @@ import cors from "cors";
 import express, { type Express, json, Response } from "express";
 import type { Server } from "http";
 
-import { API_V1_PATH, CORS_ORIGIN, HEALTH_PATH, PORT } from "./constants";
+import {
+  API_V1_PATH,
+  CORS_ORIGIN,
+  HEALTH_PATH,
+  PORT,
+  REQUEST_BODY_LIMIT,
+} from "./constants";
 import { Logger } from "./logger";
 import { ErrorHandler } from "./middleware/error.middleware";
+import { rateLimiter } from "./middleware/rate-limit.middleware";
 import { WeatherRoutes } from "./routes/weather.routes";
 import { HealthCheckResponse } from "./types/weather.types";
 
@@ -14,7 +21,8 @@ const logger = new Logger();
 export const app: Express = express();
 
 app.use(cors({ origin: CORS_ORIGIN }));
-app.use(json({ limit: "1mb" }));
+app.use(json({ limit: REQUEST_BODY_LIMIT }));
+app.use(rateLimiter);
 
 // Log configuration
 logger.info("Application configured", {

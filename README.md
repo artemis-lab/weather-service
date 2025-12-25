@@ -224,6 +224,16 @@ curl http://localhost:3000/v1/forecast/0,0
 }
 ```
 
+### Error Response (429)
+
+```json
+{
+  "success": false,
+  "error": "TooManyRequestsError",
+  "message": "Too many requests, please try again later"
+}
+```
+
 ### Error Response (503)
 
 ```json
@@ -232,6 +242,27 @@ curl http://localhost:3000/v1/forecast/0,0
   "error": "ServiceUnavailableError",
   "message": "Weather service returned status 500"
 }
+```
+
+## Rate Limiting
+
+The API implements rate limiting to prevent abuse:
+
+- **Limit**: 100 requests per IP address
+- **Window**: 15 minutes (900 seconds)
+- **Headers**: Standard `RateLimit-*` headers are returned with every response
+- **Response**: Returns 429 status code when limit is exceeded
+
+**Example:**
+
+```bash
+# Check rate limit status in response headers
+curl -I http://localhost:3000/health
+
+# Response headers include:
+# RateLimit-Limit: 100
+# RateLimit-Remaining: 99
+# RateLimit-Reset: 900
 ```
 
 ## Health Check
@@ -252,7 +283,7 @@ curl http://localhost:3000/health
 - ✅ **Validated**: Zod schema validation for all inputs
 - ✅ **Resilient**: Automatic retry logic with exponential backoff (3 attempts)
 - ✅ **Observable**: Structured logging with trace IDs for request tracking
-- ✅ **Secure**: 1MB body size limit, configurable CORS
+- ✅ **Secure**: Rate limiting (100 req/15min), 1MB body size limit, configurable CORS
 - ✅ **Production-ready**: Graceful shutdown handling (SIGTERM/SIGINT)
 - ✅ **Well-tested**: 100% test coverage with unit and integration tests
 - ✅ **Centralized error handling**: Consistent error responses across all endpoints

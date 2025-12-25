@@ -3,14 +3,16 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { API_V1_PATH } from "../../../src/constants";
 import { app } from "../../../src/index";
+import { waitForRateLimitReset } from "../../setup";
 
 describe("WeatherRoutes", () => {
   beforeEach(() => {
     global.fetch = vi.fn();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     vi.restoreAllMocks();
+    await waitForRateLimitReset();
   });
 
   describe("GET /forecast/:coordinates", () => {
