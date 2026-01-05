@@ -1,5 +1,6 @@
 import cors from "cors";
 import express, { type Express, json, Response } from "express";
+import helmet from "helmet";
 import type { Server } from "http";
 
 import {
@@ -20,6 +21,7 @@ const logger = new Logger();
 // Create and configure Express app
 export const app: Express = express();
 
+app.use(helmet());
 app.use(cors({ origin: CORS_ORIGIN }));
 app.use(json({ limit: REQUEST_BODY_LIMIT }));
 app.use(rateLimiter);

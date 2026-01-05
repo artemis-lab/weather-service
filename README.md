@@ -283,7 +283,7 @@ curl http://localhost:3000/health
 - ✅ **Validated**: Zod schema validation for all inputs
 - ✅ **Resilient**: Automatic retry logic with exponential backoff (3 attempts)
 - ✅ **Observable**: Structured logging with trace IDs for request tracking
-- ✅ **Secure**: Rate limiting (100 req/15min), 1MB body size limit, configurable CORS
+- ✅ **Secure**: Security headers (Helmet), rate limiting (100 req/15min), 1MB body size limit, configurable CORS
 - ✅ **Production-ready**: Graceful shutdown handling (SIGTERM/SIGINT)
 - ✅ **Well-tested**: 100% test coverage with unit and integration tests
 - ✅ **Centralized error handling**: Consistent error responses across all endpoints
