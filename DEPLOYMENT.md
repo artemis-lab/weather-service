@@ -1,6 +1,49 @@
+<!-- omit in toc -->
 # Deployment Guide
 
 This guide covers deploying the weather service to Google Cloud Run with a custom domain.
+
+<!-- omit in toc -->
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Initial Setup](#initial-setup)
+  - [1. Authenticate with Google Cloud](#1-authenticate-with-google-cloud)
+  - [2. Configure Docker for Google Cloud](#2-configure-docker-for-google-cloud)
+  - [3. Build and Push Docker Image](#3-build-and-push-docker-image)
+  - [4. Deploy to Cloud Run](#4-deploy-to-cloud-run)
+  - [5. Set Environment Variables (Optional)](#5-set-environment-variables-optional)
+  - [6. Verify Deployment](#6-verify-deployment)
+- [Custom Domain Setup](#custom-domain-setup)
+  - [Option 1: Subdomain (Recommended)](#option-1-subdomain-recommended)
+    - [Step 1: Map Domain to Cloud Run](#step-1-map-domain-to-cloud-run)
+    - [Step 2: Configure DNS](#step-2-configure-dns)
+    - [Step 3: Verify Certificate](#step-3-verify-certificate)
+    - [Step 4: Test Your Domain](#step-4-test-your-domain)
+  - [Option 2: Apex Domain](#option-2-apex-domain)
+- [Scaling](#scaling)
+  - [Adjust Memory and CPU](#adjust-memory-and-cpu)
+  - [Adjust Instance Limits](#adjust-instance-limits)
+  - [Configure Concurrency](#configure-concurrency)
+- [Monitoring](#monitoring)
+  - [View Logs](#view-logs)
+  - [Check Service Status](#check-service-status)
+  - [View Metrics](#view-metrics)
+- [CI/CD with GitHub Actions](#cicd-with-github-actions)
+  - [Setup Steps](#setup-steps)
+- [Environment Variables](#environment-variables)
+- [Cost Optimization](#cost-optimization)
+  - [Pricing](#pricing)
+  - [Minimize Costs](#minimize-costs)
+- [Troubleshooting](#troubleshooting)
+  - [Deployment Fails](#deployment-fails)
+  - [Architecture Errors](#architecture-errors)
+  - [DNS Not Working](#dns-not-working)
+  - [Service Not Responding](#service-not-responding)
+  - [Port Issues](#port-issues)
+- [Rollback](#rollback)
+- [Cleanup](#cleanup)
+- [Additional Resources](#additional-resources)
 
 ## Prerequisites
 
