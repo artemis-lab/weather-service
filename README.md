@@ -2,9 +2,39 @@
 [![codecov](https://codecov.io/gh/artemis-lab/weather-service/branch/master/graph/badge.svg)](https://codecov.io/gh/artemis-lab/weather-service)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+<!-- omit in toc -->
 # Weather Service
 
 A Node.js/Express API service that retrieves weather forecast from the [Weather.gov API](https://www.weather.gov/documentation/services-web-api) for US locations. Built with Node.js, TypeScript, Express, and Zod.
+
+<!-- omit in toc -->
+## Table of Contents
+
+- [Purpose](#purpose)
+- [Live API](#live-api)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Install Dependencies](#install-dependencies)
+  - [Configuration](#configuration)
+  - [Build](#build)
+  - [Run](#run)
+  - [Run with Docker](#run-with-docker)
+  - [Development](#development)
+- [API Usage](#api-usage)
+  - [Get Weather Forecast](#get-weather-forecast)
+- [Examples](#examples)
+  - [Success Response (200)](#success-response-200)
+  - [Error Response (400)](#error-response-400)
+  - [Error Response (404)](#error-response-404)
+  - [Error Response (429)](#error-response-429)
+  - [Error Response (503)](#error-response-503)
+- [Rate Limiting](#rate-limiting)
+- [Health Check](#health-check)
+- [Temperature Classification](#temperature-classification)
+- [Features](#features)
+- [Technical Details](#technical-details)
+- [Deployment](#deployment)
+- [License](#license)
 
 ## Purpose
 
