@@ -11,6 +11,7 @@ env:
   SERVICE_NAME: weather-service
   REGION: us-west1
   CUSTOM_DOMAIN: https://api.weather.artemislab.net
+  ENVIRONMENT: Production
 
 jobs:
   deploy:
@@ -108,7 +109,7 @@ jobs:
         id: deployment
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          environment: production
+          environment: ${{ env.ENVIRONMENT }}
           environment-url: ${{ env.CUSTOM_DOMAIN }}
 
       - name: Route 100% traffic to new revision
