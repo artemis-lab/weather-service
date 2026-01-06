@@ -80,7 +80,6 @@ jobs:
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
           env: production
-          ref: ${{ github.head_ref }}
 
       - name: Deploy to Cloud Run
         id: deploy
