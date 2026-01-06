@@ -73,6 +73,15 @@ jobs:
           docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA
           docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:latest
 
+      - name: Start deployment
+        uses: bobheadxi/deployments@v1
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: production
+          ref: ${{ github.head_ref }}
+
       - name: Deploy to Cloud Run
         id: deploy
         run: |
@@ -89,8 +98,11 @@ jobs:
             --format=json > deploy-output.json
 
           REVISION=$(jq -r '.status.latestCreatedRevisionName' deploy-output.json)
+          SERVICE_URL=$(jq -r '.status.url' deploy-output.json)
           echo "revision=$REVISION" >> $GITHUB_OUTPUT
+          echo "url=$SERVICE_URL" >> $GITHUB_OUTPUT
           echo "Deployed revision: $REVISION"
+          echo "Service URL: $SERVICE_URL"
 
       - name: Route traffic to new revision
         run: |
@@ -98,8 +110,13 @@ jobs:
             --region $REGION \
             --to-revisions ${{ steps.deploy.outputs.revision }}=100
 
-      - name: Show service URL
-        run: |
-          gcloud run services describe $SERVICE_NAME \
-            --region $REGION \
-            --format 'value(status.url)'
+      - name: Update deployment status
+        uses: bobheadxi/deployments@v1
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          env: ${{ steps.deployment.outputs.env }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: ${{ steps.deploy.outputs.url }}
