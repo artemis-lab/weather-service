@@ -2,7 +2,9 @@ import cors from "cors";
 import express, { type Express, json, Response } from "express";
 import helmet from "helmet";
 import type { Server } from "http";
+import swaggerUi from "swagger-ui-express";
 
+import swaggerSpec from "./config/openapi.json";
 import {
   API_V1_PATH,
   CORS_ORIGIN,
@@ -31,6 +33,14 @@ logger.info("Application configured", {
   corsOrigin: CORS_ORIGIN,
   nodeEnv: process.env.NODE_ENV,
   port: PORT,
+});
+
+// Swagger API documentation
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Redirect root to API docs
+app.get("/", (_req, res) => {
+  res.redirect("/api-docs");
 });
 
 // Health check

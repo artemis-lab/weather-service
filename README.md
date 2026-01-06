@@ -47,6 +47,8 @@ The service is deployed and available at:
 
 **Base URL**: `https://api.weather.artemislab.net`
 
+**API Documentation**: [https://api.weather.artemislab.net/api-docs](https://api.weather.artemislab.net/api-docs)
+
 Try it out:
 
 ```bash
@@ -318,6 +320,7 @@ curl http://localhost:3000/health
 - ✅ **Production-ready**: Graceful shutdown handling (SIGTERM/SIGINT)
 - ✅ **Well-tested**: 100% test coverage with unit and integration tests
 - ✅ **Centralized error handling**: Consistent error responses across all endpoints
+- ✅ **Interactive API documentation**: OpenAPI 3.0 (Swagger) documentation at `/api-docs`
 
 ## Technical Details
 

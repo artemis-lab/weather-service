@@ -1,0 +1,289 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Weather Service API",
+    "version": "1.0.0",
+    "description": "A Node.js/Express API service that retrieves weather forecasts from the Weather.gov API for US locations. Returns today's weather forecast with temperature classification (cold/moderate/hot) for given coordinates.",
+    "contact": {
+      "name": "API Support",
+      "url": "https://github.com/artemis-lab/weather-service"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.weather.artemislab.net",
+      "description": "Production server"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Development server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Health",
+      "description": "Health check endpoints"
+    },
+    {
+      "name": "Weather",
+      "description": "Weather forecast endpoints"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health check endpoint",
+        "description": "Returns the current health status of the API",
+        "tags": ["Health"],
+        "responses": {
+          "200": {
+            "description": "Service is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-01-05T12:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/forecast/{coordinates}": {
+      "get": {
+        "summary": "Get weather forecast for coordinates",
+        "description": "Returns today's weather forecast with temperature classification for given US coordinates",
+        "tags": ["Weather"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "coordinates",
+            "required": true,
+            "description": "Coordinates in format latitude,longitude (e.g., 39.7456,-97.0892)",
+            "schema": {
+              "type": "string",
+              "pattern": "^-?\\d+\\.?\\d*,-?\\d+\\.?\\d*$",
+              "example": "39.7456,-97.0892"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Weather forecast retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "This Afternoon"
+                        },
+                        "shortForecast": {
+                          "type": "string",
+                          "example": "Partly Cloudy"
+                        },
+                        "temperature": {
+                          "type": "string",
+                          "enum": ["cold", "moderate", "hot"],
+                          "example": "cold",
+                          "description": "cold: ≤50°F, moderate: 51-79°F, hot: ≥80°F"
+                        },
+                        "location": {
+                          "type": "object",
+                          "properties": {
+                            "latitude": {
+                              "type": "number",
+                              "example": 39.7456
+                            },
+                            "longitude": {
+                              "type": "number",
+                              "example": -97.0892
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid coordinates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Location not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsError"
+                }
+              }
+            },
+            "headers": {
+              "RateLimit-Limit": {
+                "description": "Maximum number of requests allowed per window",
+                "schema": {
+                  "type": "integer",
+                  "example": 100
+                }
+              },
+              "RateLimit-Remaining": {
+                "description": "Number of requests remaining in current window",
+                "schema": {
+                  "type": "integer",
+                  "example": 0
+                }
+              },
+              "RateLimit-Reset": {
+                "description": "Seconds remaining in current window",
+                "schema": {
+                  "type": "integer",
+                  "example": 900
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceUnavailableError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "error": {
+            "type": "string",
+            "example": "ValidationError"
+          },
+          "message": {
+            "type": "string",
+            "example": "Latitude must be between -90 and 90"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string",
+                  "example": "latitude"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Latitude must be between -90 and 90"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFoundError": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "error": {
+            "type": "string",
+            "example": "NotFoundError"
+          },
+          "message": {
+            "type": "string",
+            "example": "Location not found. Coordinates may be outside the US or in an unsupported area"
+          }
+        }
+      },
+      "TooManyRequestsError": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "error": {
+            "type": "string",
+            "example": "TooManyRequestsError"
+          },
+          "message": {
+            "type": "string",
+            "example": "Too many requests, please try again later"
+          }
+        }
+      },
+      "ServiceUnavailableError": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "error": {
+            "type": "string",
+            "example": "ServiceUnavailableError"
+          },
+          "message": {
+            "type": "string",
+            "example": "Weather service returned status 500"
+          }
+        }
+      }
+    }
+  }
+}
