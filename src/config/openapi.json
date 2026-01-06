@@ -172,7 +172,7 @@
                 "description": "Number of requests remaining in current window",
                 "schema": {
                   "type": "integer",
-                  "example": 0
+                  "example": 99
                 }
               },
               "RateLimit-Reset": {
