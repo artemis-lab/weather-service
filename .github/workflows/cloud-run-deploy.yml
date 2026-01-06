@@ -10,6 +10,7 @@ env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   SERVICE_NAME: weather-service
   REGION: us-west1
+  CUSTOM_DOMAIN: https://api.weather.artemislab.net
 
 jobs:
   deploy:
@@ -108,7 +109,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           environment: production
-          environment-url: ${{ steps.deploy.outputs.url }}
+          environment-url: ${{ env.CUSTOM_DOMAIN }}
 
       - name: Route 100% traffic to new revision
         run: |
@@ -124,7 +125,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
           state: success
-          environment-url: ${{ steps.deploy.outputs.url }}
+          environment-url: ${{ env.CUSTOM_DOMAIN }}
 
       - name: Update deployment status (failure)
         if: failure()
