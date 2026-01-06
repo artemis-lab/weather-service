@@ -42,8 +42,8 @@ jobs:
       - name: Run tests with coverage
         run: npm run test:coverage
 
-        # Upload coverage to Codecov (only on Node 24.x to avoid duplicates)
-      - name: Upload coverage to Codecov
+        # Upload coverage reports to Codecov (only on Node 24.x to avoid duplicates)
+      - name: Upload coverage reports to Codecov
         if: matrix.node-version == '24.x'
         uses: codecov/codecov-action@v5
         with:
