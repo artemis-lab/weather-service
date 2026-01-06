@@ -73,7 +73,7 @@ jobs:
           docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA
           docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:latest
 
-      - name: Deploy to Cloud Run
+      - name: Deploy to Cloud Run (no traffic)
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v3
         with:
@@ -87,6 +87,46 @@ jobs:
             --min-instances=0
             --max-instances=10
             --allow-unauthenticated
+            --no-traffic
 
-      - name: Show deployment URL
-        run: echo "Deployed to ${{ steps.deploy.outputs.url }}"
+      - name: Get deployed revision
+        id: revision
+        run: |
+          REVISION=$(gcloud run revisions list \
+            --service=${{ env.SERVICE_NAME }} \
+            --region=${{ env.REGION }} \
+            --format="value(name)" \
+            --limit=1)
+          echo "name=$REVISION" >> $GITHUB_OUTPUT
+
+      - name: Create deployment
+        uses: chrnorm/deployment-action@v2
+        id: deployment
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          environment: production
+          environment-url: ${{ steps.deploy.outputs.url }}
+
+      - name: Route 100% traffic to new revision
+        run: |
+          gcloud run services update-traffic ${{ env.SERVICE_NAME }} \
+            --region=${{ env.REGION }} \
+            --to-revisions=${{ steps.revision.outputs.name }}=100
+          echo "Routed 100% traffic to ${{ steps.revision.outputs.name }}"
+
+      - name: Update deployment status (success)
+        if: success()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+          state: success
+          environment-url: ${{ steps.deploy.outputs.url }}
+
+      - name: Update deployment status (failure)
+        if: failure()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+          state: failure
